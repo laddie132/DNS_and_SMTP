@@ -60,8 +60,11 @@ u_int handle_query(char *raw_buf, int len, char *rtn_buf) {
     if (ntohs(buf_h->que_cnt) != 1 || (ntohs(buf_qh->type) != A && ntohs(buf_qh->type) != AAAA)
         || ntohs(buf_qh->class_type) != INET) {
 
-        lprintf("Query %x, not supported format\n", ntohs(buf_h->id));
-        return make_error_pkg(rtn_buf, 4);
+        ddprintf("Query %x, local not supported format\n", ntohs(buf_h->id));
+        u_int rtn = relay_dns(raw_buf-12, len, ntohs(buf_h->id), rtn_buf);
+        if(!rtn)
+            return make_error_pkg(rtn_buf, 4);
+        return rtn;
     }
 
     // 获取查询名
@@ -421,6 +424,7 @@ void print_help() {
     printf("*************************************************************\n");
     printf("Dns Server with local cache and relay\n");
     printf("Usage: dns_server.exe [-d | -dd] [dns-server-ipaddr] [filename]\n");
+    printf("Open Source: https://github.com/laddie132/DNS_and_SMTP\n");
     printf("Designed by: Liu Han, liuhan132@foxmail.com\n");
 }
 

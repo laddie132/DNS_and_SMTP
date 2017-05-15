@@ -22,6 +22,7 @@ void print_help() {
     printf("*************************************************************\n");
     printf("smtp client to send emails\n");
     printf("Usage: smtp_clent.exe\n");
+    printf("Open Source: https://github.com/laddie132/DNS_and_SMTP\n");
     printf("Designed by: Liu Han, liuhan132@foxmail.com\n\n");
 }
 
